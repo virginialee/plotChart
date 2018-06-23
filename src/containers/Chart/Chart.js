@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import Plot from 'react-plotly.js';
+import { de } from '../../locale/plotly-locale-de';
+import { es } from '../../locale/plotly-locale-es';
+import { fr } from '../../locale/plotly-locale-fr';
+import { it } from '../../locale/plotly-locale-it';
 
 import DateRangeSelector from '../../components/DateRangeSelector/DateRangeSelector';
 
@@ -108,11 +112,28 @@ class Chart extends React.Component {
       // height: 400,
       autosize: true,
       title: title,
+      xaxis: {
+        ticks: 'inside',
+        tickprefix: '€',
+        ticksuffix: '#',
+        tickangle: -45,
+      },
+      yaxis: {
+        gridwidth: 1,
+      },
+      margin: {
+        pad: 20,
+      }
     };
   }
 
   render() {
     console.log(this.dataRange(this.state.selected));
+    const config = {
+      locale: 'es',
+      locales: { es }
+    };
+
     return (
       <div>
         <DateRangeSelector onChange={this.handleChange}/>
@@ -121,6 +142,7 @@ class Chart extends React.Component {
             data={[this.barChart(this.dataRange(this.state.selected, 'h'))]}
             layout={this.dimension(this.state.selected)}
             useResizeHandler={true}
+            config={config}
           />
           <Plot
             data={[this.pieChart(this.pieChartData())]}
