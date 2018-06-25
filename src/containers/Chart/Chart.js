@@ -9,6 +9,7 @@ import { it } from '../../locale/plotly-locale-it';
 
 import DateRangeSelector from '../../components/DateRangeSelector/DateRangeSelector';
 
+// https://plot.ly/javascript/bar-charts/
 class Chart extends React.Component {
   constructor(props) {
     super(props);
@@ -41,10 +42,16 @@ class Chart extends React.Component {
       yAxis = 'range';
     }
 
+    console.log(data[range]);
+
     return {
       x: data[range][xAxis],
       y: data[range][yAxis],
+      width: 0.5,
       orientation,
+      marker: {
+        color: 'rgba(50, 171, 96, 0.8)',
+      },
     }
   }
 
@@ -70,22 +77,26 @@ class Chart extends React.Component {
     }
 
     return {
-      // width: '40%',
-      // height: 400,
       autosize: true,
       title: title,
       xaxis: {
-        ticks: 'inside',
-        tickprefix: '€',
-        ticksuffix: '#',
+        // ticks: 'inside',
+        // tickprefix: '€',
+        // ticksuffix: '#',
         tickangle: -45,
       },
       yaxis: {
-        gridwidth: 1,
+        // gridwidth: 1,
+        // title: 'Earnings in Euro',
+        tickprefix: '€',
+        ticksuffix: '#',
       },
       margin: {
-        pad: 20,
-      }
+        r: 10,
+        b: 100,
+        pad: 10,
+      },
+      plot_bgcolor: 'rgba(245, 246, 249, 1)',
     };
   }
 
@@ -101,14 +112,11 @@ class Chart extends React.Component {
         <DateRangeSelector onChange={this.handleChange}/>
         <div>
           <Plot
-            data={[this.barChart(this.dataRange(this.state.selected, 'h'))]}
+            data={[this.barChart(this.dataRange(this.state.selected))]}
             layout={this.dimension(this.state.selected)}
             useResizeHandler={true}
             config={config}
-          />
-          <Plot
-            data={[this.pieChart(this.pieChartData())]}
-            layout={this.dimension()}
+            style={{width: "80%", height: "80%"}}
           />
         </div>
       </div>
